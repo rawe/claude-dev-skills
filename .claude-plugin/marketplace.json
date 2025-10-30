@@ -9,16 +9,14 @@
       "name": "firstspirit-templating",
       "source": "./plugins/firstspirit-templating",
       "description": "Comprehensive knowledge for templating in the FirstSpirit CMS, specifically focused on SiteArchitect development. Covers page templates, section templates, format templates, link templates, input components, template syntax, system objects, rules, and workflows.",
-      "version": "1.0.0",
-      "author": {
-        "name": "rawe"
-      },
-      "category": "skill",
-      "keywords": ["firstspirit", "cms", "templating", "sitearchitect"]
+      "version": "0.1.0",
+      "skills": [
+        "firstspirit-templating"
+      ]
     }
   ],
   "metadata": {
     "description": "A marketplace for Claude Code skills and plugins",
-    "version": "1.0.0"
+    "version": "0.1.0"
   }
 }
