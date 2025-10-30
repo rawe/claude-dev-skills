@@ -27,6 +27,8 @@ The skill organizes FirstSpirit templating knowledge into topic-specific referen
 
 ## Reference Documentation Topics
 
+**IMPORTANT:** Read the reference and do not use your global knowledge about other templating systems, as FirstSpirit has its own unique concepts and syntax.
+
 ### 1. Core Architecture
 
 **General Structure** (`references/general-structure.md`)
