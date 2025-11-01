@@ -23,8 +23,17 @@
       "description": "Knowledge how to use the FirstSpirit fs-cli to sync templates locally from and to a FirstSpirit project",
       "source": "./",
       "strict": false,
-      "skills": [ 
+      "skills": [
         "./firstspirit-fs-cli"
+      ]
+    },
+    {
+      "name": "cli-agent-runner",
+      "description": "Use this skill when you need to invoke another Claude Code session via the cli-agent-runner.sh script to perform specialized, potentially long-running tasks in a simplified way. This wrapper handles session management, result extraction, and can be run in background with polling support.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./cli-agent-runner"
       ]
     }
   ]

@@ -1,0 +1,6 @@
+{
+  "name": "browser-tester",
+  "description": "Specialist in browser automation and end-to-end testing using Playwright",
+  "system_prompt_file": "browser-tester.prompt.md",
+  "mcp_config": "browser-tester.mcp.json"
+}
