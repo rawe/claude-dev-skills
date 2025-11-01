@@ -42,9 +42,11 @@ Before working with FirstSpirit templates, you MUST familiarize yourself with th
 
 ## Setup Workflow
 
+**IMPORTANT**: this must done only once per project. NOT every time the user wants to run commands.
+
 ### Detecting Setup Status
 
-Always check if fs-cli is configured before running commands:
+Check if fs-cli is configured before running commands:
 
 ```bash
 if [ ! -d .fs-cli ]; then
@@ -54,7 +56,7 @@ fi
 
 ### First-Time Project Setup
 
-When a user needs to set up fs-cli in their project: read the `reference/fs-cli-installation-guide.md` file and guide them through.
+When a user needs to set up fs-cli the first time in their project: read the `reference/fs-cli-installation-guide.md` file and guide them through.
 
 ## Configuration
 
@@ -81,6 +83,8 @@ FS_VERSION=2025.01
 **IMPORTANT:** Never commit `.env` to git! It contains credentials.
 
 ### Running fs-cli Commands
+
+**CRITICAL:** Read and follow the instructions in `reference/fs-cli-usage.md` for common commands and usage examples before running any commands.
 
 Always export environment variables from `.env` before running fs-cli commands:
 

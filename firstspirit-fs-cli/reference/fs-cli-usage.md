@@ -35,30 +35,54 @@ Test connection to FirstSpirit server:
 set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh test
 ```
 
-### Export All Templates
-
-Export all templates from FirstSpirit server to local sync directory:
-
-```bash
-set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export
-```
-
-**What gets exported:**
-- Page templates
-- Section templates
-- Format templates
-- Link templates
-- Workflows
-- Rules
-
-All exported content is stored in `sync_dir/TemplateStore/`.
-
-### Export Only TemplateStore
+### Export Templates
 
 Export only templates (no content, media, etc.):
 
 ```bash
-set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export templatestore
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export -- templatestore
+```
+
+### Export Single Template by ID
+
+Export a specific template by its UID:
+
+```bash
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export -- sectiontemplate:st_text_image_module
+```
+
+**Template Type Prefixes:**
+- `sectiontemplate:` - Section templates
+- `pagetemplate:` - Page templates
+- `formattemplate:` - Format templates
+- `linktemplate:` - Link templates
+- `workflow:` - Workflows
+- `script:` - Scripts
+
+**Examples:**
+```bash
+# Export a section template
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export -- sectiontemplate:st_text_image_module
+
+# Export a page template
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export -- pagetemplate:pt_standard_page
+
+# Export multiple specific templates
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export -- sectiontemplate:st_text_image_module pagetemplate:pt_standard_page
+```
+
+**What Happens to Previously Exported Templates:**
+
+When you export a specific template by ID, fs-cli will **remove all other templates** from `sync_dir/` that are not part of the current export. This keeps the sync directory focused on only the templates you specified.
+
+- **Before**: `sync_dir/` contains all previously exported templates
+- **After**: `sync_dir/` contains **only** the template(s) you just exported
+- **Deleted**: All other templates are removed from `sync_dir/` (not from the server!)
+
+**To keep existing templates and add more**, use the `--keepObsoleteFiles` flag:
+
+```bash
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export --keepObsoleteFiles -- sectiontemplate:st_text_image_module
 ```
 
 ### Export Specific Element by UID
