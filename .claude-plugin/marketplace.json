@@ -17,6 +17,15 @@
       "skills": [ 
         "./firstspirit-templating"
       ]
+    },
+    {
+      "name": "firstspirit-fs-cli",
+      "description": "Knowledge how to use the FirstSpirit fs-cli to sync templates locally from and to a FirstSpirit project",
+      "source": "./",
+      "strict": false,
+      "skills": [ 
+        "./firstspirit-fs-cli"
+      ]
     }
   ]
 }
