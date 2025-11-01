@@ -19,11 +19,11 @@ FS-CLI supports environment variables to simplify command execution:
 | `fspwd`     | FirstSpirit user password                      | -           |
 | `fsproject` | FirstSpirit project name                       | -           |
 
-**IMPORTANT** These environment variables are already set in the .env file in the project root directory for convenience.
+**IMPORTANT:** These environment variables are already set in the .env file in the project root directory for convenience.
 
 ### Setup Environment Variables
 
-Use the .env file to set the required environment variables.
+The `.env` file should use standard format (without `export` keyword). Use `set -a; source .env; set +a` before running fs-cli commands to properly export these variables.
 
 
 ## Common Commands
@@ -32,8 +32,7 @@ Use the .env file to set the required environment variables.
 Test connection to FirstSpirit server:
 
 ```bash
-source .env
-.fs-cli/bin/fs-cli.sh test
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh test
 ```
 
 ### Export All Templates
@@ -41,8 +40,7 @@ source .env
 Export all templates from FirstSpirit server to local sync directory:
 
 ```bash
-source .env
-.fs-cli/bin/fs-cli.sh -sd sync_dir/ export
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export
 ```
 
 **What gets exported:**
@@ -60,8 +58,7 @@ All exported content is stored in `sync_dir/TemplateStore/`.
 Export only templates (no content, media, etc.):
 
 ```bash
-source .env
-.fs-cli/bin/fs-cli.sh -sd sync_dir/ export -- templatestore
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export templatestore
 ```
 
 ### Export Specific Element by UID
@@ -69,8 +66,7 @@ source .env
 Export a single element by its unique ID:
 
 ```bash
-source .env
-.fs-cli/bin/fs-cli.sh -sd sync_dir/ export -uid homepage
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export -uid homepage
 ```
 
 Replace `homepage` with the UID of the element you want to export.
@@ -80,8 +76,7 @@ Replace `homepage` with the UID of the element you want to export.
 Import templates from local sync directory to FirstSpirit server:
 
 ```bash
-source .env
-.fs-cli/bin/fs-cli.sh -sd sync_dir/ import
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ import
 ```
 
 **Requirements:**
@@ -96,8 +91,7 @@ source .env
 Test import without making changes to the server:
 
 ```bash
-source .env
-.fs-cli/bin/fs-cli.sh -sd sync_dir/ import --dry-run
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ import --dry-run
 ```
 
 Use this to verify what would be imported before actually doing it.
@@ -125,9 +119,10 @@ If you prefer not to use environment variables, you can specify all parameters e
 
 ## Notes
 
-- **Always source `.env` before running commands** to load environment variables
+- **Always use `set -a && source .env && set +a` before running commands** to properly export environment variables
 - When using environment variables, connection parameters (`-h`, `-port`, `-u`, `-pwd`, `-m`, `-p`) can be omitted
 - The sync directory is in the project root subfolder `sync_dir/`
+- Global options like `-sd` must come BEFORE the command (e.g., `-sd sync_dir/ export` not `export -sd sync_dir/`)
 - Import overwrites existing templates with the same names in FirstSpirit
 - Export creates/overwrites files in the sync directory
 - Use `--dry-run` with import to test safely before applying changes

@@ -79,17 +79,17 @@ Once validation passes, you can:
 All configuration is stored in `.env`:
 
 ```bash
-# Server settings
-FS_HOST=localhost
-FS_PORT=8000
-FS_MODE=HTTP              # or HTTPS or SOCKET
-FS_PROJECT=my-project
+# FirstSpirit Server Configuration
+fshost=localhost
+fsport=8000
+fsmode=HTTP
+fsproject=my-project
 
-# Credentials (keep secret!)
-FS_USER=admin
-FS_PASSWORD=your-password
+# FirstSpirit Credentials (KEEP SECRET - DO NOT COMMIT)
+fsuser=Admin
+fspwd=your_password
 
-# Versions
+# fs-cli Configuration (for reference only, not used by fs-cli)
 FS_CLI_VERSION=4.8.6
 FS_VERSION=2025.01
 ```
@@ -142,7 +142,7 @@ chmod +x .fs-cli/bin/fs-cli
 
 1. **Verify server is running**:
    ```bash
-   telnet $FS_HOST $FS_PORT
+   telnet $fshost $fsport
    ```
 
 2. **Check credentials** in `.env`
@@ -153,10 +153,7 @@ chmod +x .fs-cli/bin/fs-cli
 
 5. **Test with fs-cli directly**:
    ```bash
-   source .env
-   .fs-cli/bin/fs-cli \
-     -h ${FS_HOST} -port ${FS_PORT} -u ${FS_USER} -pwd ${FS_PASSWORD} -m ${FS_MODE} \
-     -h
+   set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh test
    ```
 
 ### Download Failures
@@ -200,8 +197,7 @@ Each project connects to one FirstSpirit server version. If you have multiple en
 .env.staging   # Staging
 
 # Switch environments by sourcing different .env files:
-source .env.prod
-.fs-cli/bin/fs-cli -h ${FS_HOST} ... export -p ${FS_PROJECT} -sd sync_dir/
+set -a && source .env.prod && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export
 ```
 
 **Note**: All environments in a project should use the same FirstSpirit version since the fs-isolated-runtime.jar is version-specific.

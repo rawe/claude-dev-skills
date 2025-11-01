@@ -118,16 +118,16 @@ if [ ! -f "$ENV_FILE" ]; then
 
     cat > "$ENV_FILE" << EOF
 # FirstSpirit Server Configuration
-FS_HOST=${FS_HOST}
-FS_PORT=${FS_PORT}
-FS_MODE=${FS_MODE}
-FS_PROJECT=${FS_PROJECT}
+fshost=${FS_HOST}
+fsport=${FS_PORT}
+fsmode=${FS_MODE}
+fsproject=${FS_PROJECT}
 
 # FirstSpirit Credentials (KEEP SECRET - DO NOT COMMIT)
-FS_USER=${FS_USER}
-FS_PASSWORD=${FS_PASSWORD}
+fsuser=${FS_USER}
+fspwd=${FS_PASSWORD}
 
-# fs-cli Configuration
+# fs-cli Configuration (for reference only, not used by fs-cli)
 FS_CLI_VERSION=${FS_CLI_VERSION}
 FS_VERSION=${FS_VERSION}
 EOF
@@ -135,16 +135,16 @@ EOF
     # Create .env.example (without secrets)
     cat > "$ENV_EXAMPLE" << EOF
 # FirstSpirit Server Configuration
-FS_HOST=localhost
-FS_PORT=8000
-FS_MODE=HTTP
-FS_PROJECT=your-project-name
+fshost=localhost
+fsport=8000
+fsmode=HTTP
+fsproject=your-project-name
 
 # FirstSpirit Credentials (KEEP SECRET - DO NOT COMMIT)
-FS_USER=your-username
-FS_PASSWORD=your-password
+fsuser=your-username
+fspwd=your-password
 
-# fs-cli Configuration
+# fs-cli Configuration (for reference only, not used by fs-cli)
 FS_CLI_VERSION=${FS_CLI_VERSION}
 FS_VERSION=${FS_VERSION}
 EOF

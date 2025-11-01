@@ -63,17 +63,17 @@ When a user needs to set up fs-cli in their project: read the `reference/fs-cli-
 All fs-cli configuration is stored in `.env`:
 
 ```bash
-# Server connection
-FS_HOST=localhost
-FS_PORT=8000
-FS_MODE=HTTP              # or HTTPS or SOCKET
-FS_PROJECT=my-project
+# FirstSpirit Server Configuration
+fshost=localhost
+fsport=8000
+fsmode=HTTP
+fsproject=my-project
 
-# Credentials (keep secret!)
-FS_USER=admin
-FS_PASSWORD=your-password
+# FirstSpirit Credentials (KEEP SECRET - DO NOT COMMIT)
+fsuser=Admin
+fspwd=your_password
 
-# Versions
+# fs-cli Configuration (for reference only, not used by fs-cli)
 FS_CLI_VERSION=4.8.6
 FS_VERSION=2025.01
 ```
@@ -82,16 +82,17 @@ FS_VERSION=2025.01
 
 ### Running fs-cli Commands
 
-Always source `.env` before running fs-cli commands:
+Always export environment variables from `.env` before running fs-cli commands:
 
 ```bash
-# Load environment variables
-source .env
+# Export environment variables from .env (use set -a to auto-export all variables)
+set -a && source .env && set +a
 
-# Run fs-cli with connection parameters
-.fs-cli/bin/fs-cli -h ${FS_HOST} -port ${FS_PORT} -u ${FS_USER} -pwd ${FS_PASSWORD} -m ${FS_MODE} \
-  <command> [args]
+# Run fs-cli (connection parameters are read from environment variables)
+.fs-cli/bin/fs-cli.sh <command> [args]
 ```
+
+**Note:** Use `set -a; source .env; set +a` to properly export all variables from the `.env` file. The `.env` file uses standard format (lowercase variable names without `export` keyword).
 
 See `reference/fs-cli-usage.md` for common commands and examples.
 
@@ -102,10 +103,7 @@ See `reference/fs-cli-usage.md` for common commands and examples.
 Always export before modifying to get the latest version from the server:
 
 ```bash
-source .env
-.fs-cli/bin/fs-cli.sh \
-  -h ${FS_HOST} -port ${FS_PORT} -u ${FS_USER} -pwd ${FS_PASSWORD} -m ${FS_MODE} \
-  export -p ${FS_PROJECT} -sd sync_dir/
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ export
 ```
 
 ### 2. Understand Template Structure
@@ -160,15 +158,10 @@ After modifying templates:
 
 ```bash
 # Optional: Dry run first
-source .env
-.fs-cli/bin/fs-cli.sh \
-  -h ${FS_HOST} -port ${FS_PORT} -u ${FS_USER} -pwd ${FS_PASSWORD} -m ${FS_MODE} \
-  import -p ${FS_PROJECT} -sd sync_dir/ --dry-run
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ import --dry-run
 
 # Import for real
-.fs-cli/bin/fs-cli \
-  -h ${FS_HOST} -port ${FS_PORT} -u ${FS_USER} -pwd ${FS_PASSWORD} -m ${FS_MODE} \
-  import -p ${FS_PROJECT} -sd sync_dir/
+set -a && source .env && set +a && .fs-cli/bin/fs-cli.sh -sd sync_dir/ import
 ```
 
 ## Error Handling
@@ -176,7 +169,7 @@ source .env
 ### Connection Errors
 
 - Let the user verify the  `.env` configuration is correct
-- Check server accessibility: `telnet ${FS_HOST} ${FS_PORT}`
+- Check server accessibility: `telnet ${fshost} ${fsport}`
 - Validate credentials with FirstSpirit administrator
 - Ensure connection mode (HTTP/HTTPS/SOCKET) is correct
 - Check firewall and network access
