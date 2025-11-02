@@ -314,13 +314,13 @@ cmd_new() {
   # Ensure required directories exist
   ensure_directories
 
+  # Save session metadata immediately
+  save_session_metadata "$session_name" "$agent_name"
+
   # Run claude command
   if ! claude -p "$final_prompt" $mcp_arg --output-format stream-json --permission-mode bypassPermissions >> "$session_file" 2>&1; then
     error "Claude command failed"
   fi
-
-  # Save session metadata
-  save_session_metadata "$session_name" "$agent_name"
 
   # Extract and output result
   extract_result "$session_file"
