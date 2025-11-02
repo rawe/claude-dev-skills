@@ -376,6 +376,41 @@ sleep 60
 # Output: architect (session: 3db5dca9-6829-4cb7-a645-c64dbd98244d)
 ```
 
+ ## Important: Working Directory Requirements
+
+  **The `cli-agent-runner.sh` script must be run from your project root** where the `.cli-agent-runner/` directory exists or will be created.
+
+  ### Common Pitfall
+
+  If you change directories during your workflow, the script will look for `.cli-agent-runner/` relative to your current location and may fail silently.
+
+  **Example - What NOT to do:**
+  ```bash
+  cd .cli-agent-runner/agent-sessions  # Changed directory
+  cli-agent-runner.sh clean              # ❌ Returns "No sessions to remove"
+  # Script looks for: .cli-agent-runner/agent-sessions/.cli-agent-runner/agent-sessions/
+
+  Example - Correct approach:
+  cd /path/to/your/project               # ✅ Back to project root
+  cli-agent-runner.sh clean              # ✅ Works correctly
+  # Script looks for: /path/to/your/project/.cli-agent-runner/agent-sessions/
+
+  Best Practice
+
+  Always use absolute paths when running the script from non-root directories:
+
+  # Safe - works from any directory
+  cd /path/to/your/project && /path/to/cli-agent-runner.sh clean
+
+  # Or explicitly change to project root first
+  cd "$(git rev-parse --show-toplevel)" && cli-agent-runner.sh clean
+
+  Shell Persistence Note
+
+  In background shells or long-running terminal sessions, cd commands persist across multiple commands. Always verify your working directory with pwd before running cli-agent-runner.sh
+  commands.
+
+
 ## Additional Documentation
 
 **Creating Custom Agents**: See `references/EXAMPLE-AGENTS.md` for a complete agent definition example showing how to create agents with JSON configuration, system prompts, and MCP server integration.
