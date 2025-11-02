@@ -248,6 +248,7 @@ load_session_metadata() {
 # Update session metadata timestamp
 update_session_metadata() {
   local session_name="$1"
+  local agent_name="$2"  # Optional: agent name if known
   local meta_file="$AGENT_SESSIONS_DIR/${session_name}.meta.json"
   local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
@@ -255,6 +256,9 @@ update_session_metadata() {
     # Update last_resumed_at
     jq ".last_resumed_at = \"$timestamp\"" "$meta_file" > "${meta_file}.tmp"
     mv "${meta_file}.tmp" "$meta_file"
+  else
+    # Create meta.json if it doesn't exist (backward compatibility)
+    save_session_metadata "$session_name" "$agent_name"
   fi
 }
 
@@ -363,8 +367,8 @@ cmd_resume() {
     error "Claude resume command failed"
   fi
 
-  # Update session metadata timestamp
-  update_session_metadata "$session_name"
+  # Update session metadata timestamp (or create if missing)
+  update_session_metadata "$session_name" "$SESSION_AGENT"
 
   # Extract and output result
   extract_result "$session_file"
