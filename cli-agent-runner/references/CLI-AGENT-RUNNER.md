@@ -25,27 +25,31 @@ An **agent** is a reusable configuration that defines the behavior, expertise, a
 
 #### Agent Structure
 
-Each agent consists of three components stored in `.cli-agent-runner/agents/`:
+Each agent is organized in its own directory within `.cli-agent-runner/agents/`. Each agent directory must match the agent name and contains:
 
-**1. JSON Configuration File** (`<agent-name>.json`)
+```
+.cli-agent-runner/agents/
+└── <agent-name>/
+    ├── agent.json                 # Required: Agent configuration
+    ├── agent.system-prompt.md     # Optional: System prompt by convention
+    └── agent.mcp.json             # Optional: MCP configuration by convention
+```
+
+**1. agent.json** (Required)
 ```json
 {
-  "name": "system-architect",
-  "description": "Expert in designing scalable system architectures",
-  "system_prompt_file": "system-architect.prompt.md",  // Optional
-  "mcp_config": "browser-tester.mcp.json"              // Optional
+  "name": "browser-tester",
+  "description": "Specialist in browser automation and end-to-end testing using Playwright"
 }
 ```
-- `name`: Agent identifier (must match filename)
+- `name`: Agent identifier (must match folder name)
 - `description`: Human-readable description
-- `system_prompt_file`: Reference to system prompt (optional)
-- `mcp_config`: Path to MCP configuration for tool access (optional)
 
-**2. System Prompt File** (`<agent-name>.prompt.md`) - Optional
-Markdown file containing the agent's role definition, expertise areas, and behavioral guidelines. When specified, this prompt is prepended to user prompts automatically.
+**2. agent.system-prompt.md** (Optional)
+Markdown file containing the agent's role definition, expertise areas, and behavioral guidelines. When present, this prompt is automatically prepended to user prompts. Discovered by convention - no need to reference in agent.json.
 
-**3. MCP Configuration File** (`<config-name>.json`) - Optional
-Standard MCP server configuration enabling the agent to access external tools and capabilities. Passed to Claude CLI via `--mcp-config` flag.
+**3. agent.mcp.json** (Optional)
+Standard MCP server configuration enabling the agent to access external tools and capabilities. Passed to Claude CLI via `--mcp-config` flag. Discovered by convention - no need to reference in agent.json.
 
 #### Agent Workflow
 
@@ -227,10 +231,10 @@ The CLI Agent Runner uses a project-relative directory structure located at `.cl
 Storage directory for session files (JSONL format). Each file contains the complete conversation history and session metadata for one session. Companion `.meta.json` files track agent associations and timestamps.
 
 **`.cli-agent-runner/agents/`**
-Storage directory for agent definitions specific to the current project. Each agent consists of:
-- A JSON configuration file (`<agent-name>.json`) defining the agent's metadata and settings
-- An optional Markdown prompt file (referenced in the JSON) containing the system prompt
-- Optional MCP configuration files (referenced in the JSON) for tool access
+Storage directory for agent definitions specific to the current project. Each agent is organized in its own subdirectory named after the agent, containing:
+- `agent.json` - Required configuration file with agent metadata
+- `agent.system-prompt.md` - Optional system prompt (discovered by convention)
+- `agent.mcp.json` - Optional MCP configuration for tool access (discovered by convention)
 
 All sessions and agent definitions are stored relative to the project directory (`$PWD`) where the script is invoked, ensuring each project maintains its own isolated agent environment.
 

@@ -1,35 +1,61 @@
 # Example Agent Definitions
 
-This reference provides a complete example agent definition demonstrating all three components of the CLI Agent Runner agent system.
+This reference provides a complete example agent definition demonstrating the CLI Agent Runner folder-based agent structure.
 
 ## Example Source Location
 
-The example files are located at `../example/agents/` (relative to this file) and include:
+The example agent is located at `../example/agents/browser-tester/` (relative to this file) and includes:
 
-**browser-tester.json** - Agent configuration
-- Defines agent name, description, and references to prompt and MCP config files
+```
+browser-tester/
+├── agent.json                   # Agent configuration
+├── agent.system-prompt.md      # System prompt (optional)
+└── agent.mcp.json               # MCP configuration (optional)
+```
 
-**browser-tester.prompt.md** - System prompt
+**agent.json** - Agent configuration
+- Defines agent name and description
+- Name must match the folder name
+
+**agent.system-prompt.md** - System prompt
 - Contains role definition, expertise areas, and behavioral guidelines
 - Automatically prepended to user prompts when the agent is used
+- Discovered by convention (no need to reference in agent.json)
 
-**browser-tester.mcp.json** - MCP configuration
+**agent.mcp.json** - MCP configuration
 - Configures Playwright MCP server for browser automation capabilities
 - Provides tool access to the agent's sessions
-- IMPORTANT: Not all agents require MCP configurations; this is specific to agents needing external tool access.
+- Discovered by convention (no need to reference in agent.json)
+- IMPORTANT: Not all agents require MCP configurations; this is specific to agents needing external tool access
 
 ## Using the Example
 
-**Source**: Copy the example files from `../example/agents/` (relative to this file)
-**Destination**: Place them in `.cli-agent-runner/agents/` in your project directory
+**Source**: Copy the entire folder from `../example/agents/browser-tester/` (relative to this file)
+**Destination**: Place it in `.cli-agent-runner/agents/` in your project directory
 
-Once copied to your project, the agent can be used with the CLI Agent Runner script.
+```bash
+# From your project root
+cp -r path/to/cli-agent-runner/example/agents/browser-tester .cli-agent-runner/agents/
+```
+
+Once copied to your project, the agent can be used with the CLI Agent Runner script:
+
+```bash
+# List available agents
+./cli-agent-runner.sh list-agents
+
+# Create session with the browser-tester agent
+./cli-agent-runner.sh new my-test --agent browser-tester -p "Test login flow"
+```
 
 ## Customizing Agents
 
 To create your own agents based on this example:
-1. Copy and rename all three files to match your agent's purpose
-2. Update the `name` field in the JSON to match the new filename (without extension)
-3. Edit the system prompt markdown file to define your agent's role and behavior
-4. Modify or add MCP configurations for any tools your agent requires
-5. Update the description to clearly explain the agent's purpose
+
+1. **Copy the example folder** and rename it to match your agent's purpose
+2. **Edit agent.json**: Update the `name` field to match the new folder name
+3. **Edit agent.system-prompt.md**: Define your agent's role, expertise, and behavior
+4. **Edit or remove agent.mcp.json**: Configure tools your agent needs, or delete if not needed
+5. **Place in your project**: Copy the folder to `.cli-agent-runner/agents/` in your project
+
+The folder structure keeps each agent self-contained and easy to distribute or version control.

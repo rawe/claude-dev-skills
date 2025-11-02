@@ -170,13 +170,20 @@ extract_session_id() {
   echo "$session_id"
 }
 
-# Load agent configuration
+# Load agent configuration from agent directory
+# Args: $1 - Agent name (must match folder name)
+# Sets global vars: AGENT_NAME, AGENT_DESCRIPTION, SYSTEM_PROMPT_FILE (full path), MCP_CONFIG (full path)
 load_agent_config() {
   local agent_name="$1"
-  local agent_file="$AGENTS_DIR/${agent_name}.json"
+  local agent_dir="$AGENTS_DIR/${agent_name}"
+  local agent_file="$agent_dir/agent.json"
+
+  if [ ! -d "$agent_dir" ]; then
+    error "Agent not found: $agent_name (expected directory: $agent_dir)"
+  fi
 
   if [ ! -f "$agent_file" ]; then
-    error "Agent not found: $agent_name (expected: $agent_file)"
+    error "Agent configuration not found: $agent_file"
   fi
 
   # Validate JSON
@@ -187,16 +194,27 @@ load_agent_config() {
   # Extract fields
   AGENT_NAME=$(jq -r '.name' "$agent_file")
   AGENT_DESCRIPTION=$(jq -r '.description' "$agent_file")
-  SYSTEM_PROMPT_FILE=$(jq -r '.system_prompt_file // empty' "$agent_file")
-  MCP_CONFIG=$(jq -r '.mcp_config // empty' "$agent_file")
 
-  # Validate name matches filename
+  # Validate name matches folder name
   if [ "$AGENT_NAME" != "$agent_name" ]; then
-    error "Agent name mismatch: filename=$agent_name, config name=$AGENT_NAME"
+    error "Agent name mismatch: folder=$agent_name, config name=$AGENT_NAME"
+  fi
+
+  # Check for optional files by convention
+  SYSTEM_PROMPT_FILE=""
+  if [ -f "$agent_dir/agent.system-prompt.md" ]; then
+    SYSTEM_PROMPT_FILE="$agent_dir/agent.system-prompt.md"
+  fi
+
+  MCP_CONFIG=""
+  if [ -f "$agent_dir/agent.mcp.json" ]; then
+    MCP_CONFIG="$agent_dir/agent.mcp.json"
   fi
 }
 
-# Load system prompt from file
+# Load system prompt from file and return its content
+# Args: $1 - Full path to prompt file (already resolved by load_agent_config)
+# Returns: File content via stdout, or empty string if path is empty
 load_system_prompt() {
   local prompt_file="$1"
 
@@ -205,12 +223,11 @@ load_system_prompt() {
     return
   fi
 
-  local full_path="$AGENTS_DIR/$prompt_file"
-  if [ ! -f "$full_path" ]; then
-    error "System prompt file not found: $full_path"
+  if [ ! -f "$prompt_file" ]; then
+    error "System prompt file not found: $prompt_file"
   fi
 
-  cat "$full_path"
+  cat "$prompt_file"
 }
 
 # Save session metadata
@@ -263,6 +280,8 @@ update_session_metadata() {
 }
 
 # Build MCP config argument for Claude CLI
+# Args: $1 - Full path to MCP config file (already resolved by load_agent_config)
+# Returns: Claude CLI argument string "--mcp-config <path>", or empty string if path is empty
 build_mcp_arg() {
   local mcp_config="$1"
 
@@ -404,24 +423,38 @@ cmd_list() {
   done
 }
 
-# Command: list-agents
+# Command: list-agents - List all available agent definitions from agent directories
+# Scans AGENTS_DIR for subdirectories containing agent.json files
+# Outputs: Agent name and description in formatted list
 cmd_list_agents() {
   # Ensure required directories exist
   ensure_directories
 
-  # Check if there are any agent definition files
-  local agent_files=("$AGENTS_DIR"/*.json)
+  # Check if there are any agent directories
+  local found_agents=false
+  for agent_dir in "$AGENTS_DIR"/*; do
+    if [ -d "$agent_dir" ] && [ -f "$agent_dir/agent.json" ]; then
+      found_agents=true
+      break
+    fi
+  done
 
-  if [ ! -f "${agent_files[0]}" ]; then
+  if [ "$found_agents" = false ]; then
     echo "No agent definitions found"
     return
   fi
 
   # List all agent definitions
   local first=true
-  for agent_file in "$AGENTS_DIR"/*.json; do
+  for agent_dir in "$AGENTS_DIR"/*; do
+    # Skip if not a directory or doesn't have agent.json
+    if [ ! -d "$agent_dir" ] || [ ! -f "$agent_dir/agent.json" ]; then
+      continue
+    fi
+
     local agent_name
     local agent_description
+    local agent_file="$agent_dir/agent.json"
 
     # Extract name and description from JSON
     agent_name=$(jq -r '.name // "unknown"' "$agent_file" 2>/dev/null)
