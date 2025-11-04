@@ -23,9 +23,9 @@ FirstSpirit CMS template development using fs-cli. Helps set up fs-cli environme
 **Keywords:** firstspirit, fs-cli, cms, template-sync, cli
 
 ### CLI Agent Runner
-Use this skill when you need to invoke another Claude Code session via the cli-agent-runner.sh script to perform specialized, potentially long-running tasks in a simplified way. This wrapper handles session management, result extraction, and can be run in background with polling support.
+Wrapper for Claude Code enabling delegated agent sessions for specialized, potentially long-running tasks. Key features include resumable sessions by name (no session ID management), independent MCP configurations per agent, and background execution with polling support.
 
-**Keywords:** cli, agent, session-management, background-tasks, delegation
+**Keywords:** cli, agent, session-management, background-tasks, delegation, mcp-configuration, resumption
 
 ## Contributing
 
