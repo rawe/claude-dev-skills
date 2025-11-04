@@ -43,21 +43,24 @@ The following variables are used in the commands and instructions:
 ## Script Location
 
 **IMPORTANT:** The `cli-agent-runner.sh` script is located in the same directory as this SKILL.md file.
+So it is in the root folder of the skill plugin.
 
 Before using the script for the first time in a conversation, you MUST locate it:
 
-1. Use the Glob tool to find the script: `pattern: "**/cli-agent-runner/cli-agent-runner.sh"`
-2. Use the absolute path returned by Glob in all subsequent commands
-3. Store this path mentally for the rest of the conversation
+1. Identify the root folder of the plugin skill and append the script name:
+   ```
+   <path-to-skill-root-folder>/cli-agent-runner.sh
+   ```
+2. Store this path mentally for the rest of the conversation: <absolute-path-to-cli-agent-runner.sh>
+3. Use the absolute path in all subsequent commands
 
 **Example:**
 ```bash
-# After using Glob to find: /path/to/plugins/cli-agent-runner/cli-agent-runner.sh
 # Use that exact path in all commands:
-/path/to/plugins/cli-agent-runner/cli-agent-runner.sh new <session-name> -p "<prompt>"
+<absolute-path-to-cli-agent-runner.sh> new <session-name> -p "<prompt>"
 ```
 
-**Note:** In all examples below, `cli-agent-runner.sh` represents the absolute path you discovered using Glob. Replace it with the actual path when executing commands.
+**Note:** In all examples below, `cli-agent-runner.sh` represents the absolute path <absolute-path-to-cli-agent-runner.sh> you discovered. Replace it with the actual path when executing commands.
 
 ## Commands Overview
 
@@ -276,6 +279,8 @@ The script supports flexible prompt input:
 3. **Both combined:** `cat file.md | ./cli-agent-runner.sh new architect -p "Context:"`
 
 **Concatenation:** If both `-p` and stdin are provided, they are concatenated with `-p` content first, then a newline, then stdin content. This is useful for adding context before piping in a file.
+
+**IMPORTANT** STDIN should be used if it is neccessarry to provide a a large complex promt to the agent or the result of another command output. e.g. `tree` for listing a directory structure.
 
 **Example:**
 ```bash
