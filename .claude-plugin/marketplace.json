@@ -11,30 +11,19 @@
   "plugins": [
     {
       "name": "firstspirit-templating",
-      "description": "Comprehensive knowledge for templating in the FirstSpirit CMS, specifically focused on SiteArchitect development. Covers page templates, section templates, format templates, link templates, input components, template syntax, system objects, rules, and workflows.",
-      "source": "./",
-      "strict": false,
-      "skills": [ 
-        "./firstspirit-templating"
-      ]
+      "source": "./firstspirit-templating"
     },
     {
       "name": "firstspirit-fs-cli",
-      "description": "Knowledge how to use the FirstSpirit fs-cli to sync templates locally from and to a FirstSpirit project",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./firstspirit-fs-cli"
-      ]
+      "source": "./firstspirit-fs-cli"
     },
     {
       "name": "cli-agent-runner",
-      "description": "Use this skill when you need to invoke another Claude Code session via the cli-agent-runner.sh script to perform specialized, potentially long-running tasks in a simplified way. This wrapper handles session management, result extraction, and can be run in background with polling support.",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./cli-agent-runner"
-      ]
+      "source": "./cli-agent-runner"
+    },
+    {
+      "name": "agent-orchestrator",
+      "source": "./agent-orchestrator"
     }
   ]
 }

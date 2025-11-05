@@ -10,7 +10,7 @@ Add this marketplace to your Claude Code configuration:
 https://github.com/rawe/claude-dev-skills
 ```
 
-## Available Skills
+## Available Plugins
 
 ### FirstSpirit Templating
 Comprehensive knowledge for templating in the FirstSpirit CMS, specifically focused on SiteArchitect development. Covers page templates, section templates, format templates, link templates, input components, template syntax, system objects, rules, and workflows.
@@ -27,13 +27,19 @@ Wrapper for Claude Code enabling delegated agent sessions for specialized, poten
 
 **Keywords:** cli, agent, session-management, background-tasks, delegation, mcp-configuration, resumption
 
+### Agent Orchestrator
+Framework for orchestrating specialized Claude Code agents to perform complex tasks through delegation and collaboration. Includes commands for initializing agent orchestration capabilities (`/agent-orchestrator-init` primes the main agent to manage and delegate to specialized agents) and creating new agent configurations (`/agent-orchestrator-create-agent` generates agent definition files with custom system prompts and MCP configurations).
+
+**Keywords:** orchestration, agent-delegation, multi-agent, task-management, mcp-configuration, specialized-agents
+
 ## Contributing
 
-To add a new skill to this marketplace:
+To add a new plugin to this marketplace:
 
-1. Add your skill directory to the repository root
-2. Update `.claude-plugin/marketplace.json` with your skill's metadata
-3. Submit a pull request
+1. Add your plugin directory to the repository root
+2. Each plugin can contain multiple skills, commands, and configuration files
+3. Update `.claude-plugin/marketplace.json` with your plugin's metadata
+4. Submit a pull request
 
 ## License
 
