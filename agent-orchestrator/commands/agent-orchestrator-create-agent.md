@@ -1,5 +1,5 @@
 ---
-name: create-orchestrated-agent
+name: agent-orchestrator-create-agent
 description: Creates a new specialized orchestrated agent configuration for delegating work to specialized Claude Code sessions
 ---
 
