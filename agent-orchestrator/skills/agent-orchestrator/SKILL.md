@@ -1,6 +1,6 @@
 ---
 name: agent-orchestrator
-description: Use this skill when you need to orchestrate another Claude Code session via the agent-orchestrator.sh script to perform specialized, potentially long-running tasks in a simplified way. This wrapper handles session management, result extraction, and can be run in background with polling support.
+description: Use this skill when you need to orchestrate agents in other Claude Code sessions to perform specialized, potentially long-running tasks in a simplified way. These agents can be resumed and can contain different mcp-server configurations then the main session.
 ---
 
 # Agent Orchestrator Skill
@@ -42,8 +42,7 @@ The following variables are used in the commands and instructions:
 
 ## Script Location
 
-**IMPORTANT:** The `agent-orchestrator.sh` script is located in the same directory as this SKILL.md file.
-So it is in the root folder of the skill plugin.
+**IMPORTANT:** The `agent-orchestrator.sh` script is located in the same directory as this SKILL.md file you read now.
 
 Before using the script for the first time in a conversation, you MUST locate it:
 
