@@ -6,7 +6,7 @@ set -euo pipefail
 PROJECT_DIR="$PWD"
 AGENT_SESSIONS_DIR="$PROJECT_DIR/.agent-orchestrator/agent-sessions"
 AGENTS_DIR="$PROJECT_DIR/.agent-orchestrator/agents"
-MAX_NAME_LENGTH=30
+MAX_NAME_LENGTH=60
 
 # Colors for output
 RED='\033[0;31m'
@@ -32,7 +32,7 @@ Commands:
   clean        Remove all sessions
 
 Arguments:
-  <session-name>  Name of the session (alphanumeric, dash, underscore only; max 30 chars)
+  <session-name>  Name of the session (alphanumeric, dash, underscore only; max 60 chars)
   <agent-name>    Name of the agent definition to use (optional for new command)
 
 Options:
