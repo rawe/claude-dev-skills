@@ -59,3 +59,17 @@ To create your own agents based on this example:
 5. **Place in your project**: Copy the folder to `.agent-orchestrator/agents/` in your project
 
 The folder structure keeps each agent self-contained and easy to distribute or version control.
+
+## Available Example Agents
+
+The following example agents are available in the `../example/agents/` directory:
+
+### browser-tester
+**Location**: `../example/agents/browser-tester/`
+**Description**: Browser automation agent with Playwright MCP integration for testing web applications
+**Features**: Includes MCP configuration for browser automation tools
+
+### web-researcher
+**Location**: `../example/agents/web-researcher/`
+**Description**: Conducts iterative web research using WebSearch and WebFetch tools to answer questions
+**Features**: Generates documented JSON sources and markdown research results

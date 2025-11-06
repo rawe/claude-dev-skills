@@ -1,0 +1,4 @@
+{
+  "name": "web-researcher",
+  "description": "Conducts iterative web research to answer questions, generates concise answers with documented JSON sources. Input: working_folder (path for sources file), question (research query)"
+}
