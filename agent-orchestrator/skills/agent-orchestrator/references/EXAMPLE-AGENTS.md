@@ -73,3 +73,9 @@ The following example agents are available in the `../example/agents/` directory
 **Location**: `../example/agents/web-researcher/`
 **Description**: Conducts iterative web research using WebSearch and WebFetch tools to answer questions
 **Features**: Generates documented JSON sources and markdown research results
+
+### confluence-researcher
+**Location**: `../example/agents/confluence-researcher/`
+**Description**: Conducts iterative Confluence research using CQL queries to answer questions
+**Features**: Includes mcp-atlassian MCP server integration, generates documented JSON sources and markdown research results
+**Setup**: See README.md for required environment variables configuration
