@@ -25,12 +25,10 @@ FirstSpirit CMS template development using fs-cli. Helps set up fs-cli environme
 ### CLI Agent Runner
 Wrapper for Claude Code enabling delegated agent sessions for specialized, potentially long-running tasks. Key features include resumable sessions by name (no session ID management), independent MCP configurations per agent, and background execution with polling support.
 
+**This is deprecated in favor of the Agent Orchestrator plugin.**
+Please Checkout: https://github.com/rawe/claude-agent-orchestrator
+
 **Keywords:** cli, agent, session-management, background-tasks, delegation, mcp-configuration, resumption
-
-### Agent Orchestrator
-Framework for orchestrating specialized Claude Code agents to perform complex tasks through delegation and collaboration. Includes commands for initializing agent orchestration capabilities (`/agent-orchestrator-init` primes the main agent to manage and delegate to specialized agents) and creating new agent configurations (`/agent-orchestrator-create-agent` generates agent definition files with custom system prompts and MCP configurations).
-
-**Keywords:** orchestration, agent-delegation, multi-agent, task-management, mcp-configuration, specialized-agents
 
 ## Contributing
 

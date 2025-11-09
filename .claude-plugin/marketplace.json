@@ -20,10 +20,6 @@
     {
       "name": "cli-agent-runner",
       "source": "./cli-agent-runner"
-    },
-    {
-      "name": "agent-orchestrator",
-      "source": "./agent-orchestrator"
     }
   ]
 }
